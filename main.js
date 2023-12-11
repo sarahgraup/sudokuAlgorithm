@@ -1,27 +1,26 @@
-const fsP = require('fs/promises')
+const fsP = require('fs/promises');
+const {Sudoku} = require("./sudoku");
 
 
 
-async function readMyFile() {
-    let contents;
-    try {
-       contents = await fsP.readFile("sudokus/s01a.txt", "utf8");
-     
-    } catch (err) {
+
+
+
+
+async function main() {
+  let board;
+  try {
+      board = await Sudoku.getSudoku("sudokus/s01a.txt");
+      
+      // Further operations with sudokuSolver
+  } catch (err) {
+      console.error("Failed to load Sudoku:", err);
       process.exit(1);
-    }
-
-    const board = contents.split('\r\n').map(r=>r.trim()).map(c=>c.split(' ').map(Number));
-
-
-    return board;
-
-    
   }
 
+ board.createBoard(board);
 
 
-//   readMyFile();
+}
 
-
-module.exports={readMyFile};
+main();
