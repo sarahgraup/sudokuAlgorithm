@@ -350,3 +350,80 @@ const solver = new SudokuSolver(boardString);
 solver.solve();
 solver.printBoard();
 ```
+
+
+
+The Degree Heuristic is a strategy used in constraint satisfaction problems, including Sudoku, to decide which variable (or cell, in the case of Sudoku) to assign a value to next. The heuristic prioritizes the variable that is involved in the largest number of constraints with unassigned variables. In Sudoku, this translates to selecting the cell that has the most potential impact on the remaining empty cells.
+
+### How Degree Heuristic Works in Sudoku:
+
+1. **Definition of a Constraint**:
+   - In Sudoku, a constraint is typically a rule that prohibits duplicating a number in a row, column, or 3x3 subgrid. 
+   - For any given cell, constraints are the number of ways this cell's assignment can affect the other unassigned cells in its row, column, and subgrid.
+
+2. **Counting Degree of Constraints**:
+   - For each empty cell, count the total number of empty cells in the same row, column, and subgrid. This count is the degree of constraints for that cell. 
+   - It's important to count only the unassigned cells, as assigned cells already have a fixed value and do not impose additional constraints.
+
+3. **Selecting the Cell with the Highest Degree**:
+   - The cell with the highest degree of constraints is chosen for the next assignment. 
+   - The rationale is that assigning a value to this cell will reduce the search space the most, as it influences the largest number of other cells.
+
+### Example:
+
+Consider a Sudoku puzzle:
+
+- Cell A (at row 1, column 1) has 5 empty cells in its row, 4 in its column, and 6 in its subgrid.
+- Cell B (at row 3, column 5) has 6 empty cells in its row, 7 in its column, and 5 in its subgrid.
+
+The degree of constraints for Cell A is 5 (row) + 4 (column) + 6 (subgrid) = 15.
+For Cell B, it's 6 (row) + 7 (column) + 5 (subgrid) = 18.
+
+Since Cell B has a higher degree of constraints, it would be prioritized for assignment according to the Degree He
+
+
+
+### Step-by-Step Process Using MRV and Degree Heuristics:
+
+1. **Initialize the Board**: 
+   - Initially, you call `createBoard()` to set up the `row`, `col`, and `subgrid` arrays. This prepares the board for the solving process.
+
+2. **Begin Solving**:
+   - Start the solving process by calling `cdclSolver()`.
+
+3. **Check if the Puzzle is Solved**:
+   - In `cdclSolver()`, the first thing to do is call `isSudokuSolved()`. If this returns `true`, the puzzle is solved, and the process can end.
+
+4. **Select the Most Constrained Cell**:
+   - Use `selectUnassignedCell()` to choose the cell to work on next. This function should apply the MRV and Degree heuristics. It involves:
+     - Using `getUnassignedCells()` to find all empty cells.
+     - For each empty cell, `countPossibleValues()` to determine the MRV.
+     - For each empty cell, `countConstraints()` to determine the Degree.
+     - Select the cell with the fewest possible values (MRV) and, in case of a tie, the highest degree of constraints.
+
+5. **Try Filling the Selected Cell**:
+   - For the chosen cell, iterate through its possible values. 
+   - Check if placing a value is valid using `isValidAssignment()`.
+   - If valid, use `assignValue()` to fill in the cell.
+
+6. **Recursive Call to Solve Further**:
+   - After assigning a value, make a recursive call to `cdclSolver()`.
+   - If the recursive call returns `true`, continue; if it returns `false`, you need to backtrack.
+
+7. **Backtrack if Needed**:
+   - If a value leads to a dead end (no valid assignments possible for subsequent cells), use `unassignValue()` to reset the cell and try another value.
+
+8. **Repeat Until Solved or Unsolved**:
+   - Continue this process until `isSudokuSolved()` returns `true` (solved) or until all options are exhausted (unsolvable).
+
+9. **Conflict Detection and Learning** (Optional Advanced Steps):
+   - Implement `analyzeConflict()` to learn from conflicts, and `propagateConstraints()` to apply constraints across the board. 
+   - `hasConflict()` can be used to check if the current board state leads to any conflicts.
+
+10. **Completion**:
+   - Once `cdclSolver()` finishes (either by solving the puzzle or determining it's unsolvable), the process is complete.
+
+### Additional Considerations:
+
+- The exact implementation details of functions like `selectUnassignedCell()`, `isValidAssignment()`, and `countConstraints()` are crucial for this process to work effectively.
+- This approach provides a structured way to tackle Sudoku puzzles by focusing on the most constrained parts first, thereby reducing the complexity of the problem.

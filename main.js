@@ -19,6 +19,7 @@ async function main() {
   }
 
  board.createBoard(board);
+ board.selectUnassignedCell();
 
 
 }
