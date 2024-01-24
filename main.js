@@ -10,7 +10,7 @@ const {Sudoku} = require("./sudoku");
 async function main() {
   let board;
   try {
-      board = await Sudoku.getSudoku("sudokus/s01a.txt");
+      board = await Sudoku.getSudoku("sudokus/s17.txt");
       
       // Further operations with sudokuSolver
   } catch (err) {
@@ -19,7 +19,9 @@ async function main() {
   }
 
  board.createBoard(board);
- board.selectUnassignedCell();
+ board.cdclSolver();
+
+//  console.log(board.selectUnassignedCell());
 
 
 }
