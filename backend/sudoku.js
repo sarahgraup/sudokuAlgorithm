@@ -34,6 +34,8 @@ class Sudoku {
         let contents;
         try {
             contents = await fsP.readFile(`${file}`, "utf8");
+            console.log("contents in get sudou", contents);
+
 
         } catch (err) {
             process.exit(1);
