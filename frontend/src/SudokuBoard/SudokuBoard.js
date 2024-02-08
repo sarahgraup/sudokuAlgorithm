@@ -13,7 +13,8 @@ import SudokuCell from "./SudokuCell";
  * SudokuBoard -> SudokuCell
  */
 
-function SudokuBoard({board}) {
+function SudokuBoard({board, highlightedCell}) {
+    // console.log("in sudoku board component");
 
 
     return (
@@ -24,6 +25,9 @@ function SudokuBoard({board}) {
                     <SudokuCell
                         key={`${rowIndex}-${cellIndex}`}
                         value={cell}
+                        isHighlighted={highlightedCell && 
+                            highlightedCell.row === rowIndex && 
+                            highlightedCell.col === cellIndex}
                     />
                 ))
            )}

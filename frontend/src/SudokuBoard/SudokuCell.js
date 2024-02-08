@@ -15,6 +15,7 @@ import "./SudokuCell.css";
  */
 
 function SudokuCell({value, isHighlighted}){
+    // console.log("in sudoku cell value", value);
     return (
         <div className={`sudoku-cell ${isHighlighted ? 'highlighted' : ''}`} >
             {value || ''}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import SudokuBoard from './SudokuBoard/SudokuBoard';
 import ControlPanel from './Controls/ControlPanel'
 import DifficultySelector from './Controls/DifficultySelector';
@@ -23,11 +23,16 @@ import './App.css';
 function App() {
 
   const [board, setBoard] = useState([]);
+  const previousBoardRef = useRef([]);
+  const [previousBoard, setPreviousBoard] = useState([]);
   const [solverStatus, setSolverStatus] = useState('stopped');
-  const [currentStep, setCurrentStep] = useState(0);
+  const [highlightedCell, setHighlightedCell] = useState(null);
+  const [currentStep, setCurrentStep] = useState(null);
   const [solverSteps, setSolverSteps] = useState([]);
-  const [selectedPuzzle, setSelectedPuzzle] = useState({difficulty: '', filename: ''});
+
+  const [selectedPuzzle, setSelectedPuzzle] = useState({ difficulty: '', filename: '' });
   const [puzzles, setPuzzles] = useState({ easy: [], medium: [], hard: [] });
+
 
   const loadPuzzle = async (difficulty, puzzleId) => {
     try {
@@ -36,23 +41,21 @@ function App() {
       setBoard(res.board);
       setSelectedPuzzle({ difficulty, filename: puzzleId });
       setSolverStatus('stopped');
-      setCurrentStep(0);
-      // setSolverSteps[];
-
+      setCurrentStep(null);
     } catch (err) {
       console.error("failed to load puzzle", err);
-
     }
   };
 
+
   /**gets puzzle txt file based on file name and solves */
-  const fetchAndSolvePuzzle = async (selectedPuzzle) => {
+  const fetchAndSetSolverSteps = async (selectedPuzzle) => {
     try {
       setSolverStatus('running');
-      const {difficulty, filename} = selectedPuzzle;
+      const { difficulty, filename } = selectedPuzzle;
       const res = await SudokuApi.getActions(difficulty, filename);
-      setSolverSteps(res.steps);
-      // Here you can automatically start animating the steps or wait for user interaction
+      setSolverSteps(res.steps || []);
+      setCurrentStep(0);
 
     } catch (err) {
       console.error("failed to solve puzzle", err);
@@ -60,22 +63,74 @@ function App() {
     }
   }
 
+  /**updates board and current step */
+  const updateBoardAndStep = (newStep) => {
+    // setPreviousBoard(board);
+    // console.log("previous board",previousBoard);
+    console.log("current step",currentStep, "new step", newStep);
+    const currentSolverStep = solverSteps[newStep];
+    console.log("currentSolverStep", currentSolverStep);
+    const { row, col, boardState} = currentSolverStep;
+
+    if(boardState){
+      setBoard(boardState.map(row => [...row]));
+    }
+   
+ 
+    setCurrentStep(newStep);
+    setHighlightedCell({row, col});
+    
+  };
+
+
+
+  /**
+   * updates board and currentstep on 1 second interval
+   * after change of currentstep, solversteps, or solverstatus
+   * */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (
+        solverSteps.length > 0 &&
+        currentStep !== null &&
+        (solverStatus === "running" || solverStatus === "resumed")
+      ) {
+        if (currentStep < solverSteps.length - 1) {
+          console.log("new board", board);
+          updateBoardAndStep(currentStep + 1);
+        } else {
+          clearInterval(timer);
+          setSolverStatus('stopped');
+        }
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  
+  }, [currentStep, solverSteps, solverStatus]);
+
   /**solves puzzle or sets solver status to paused based on user action */
-  const controlSolver = (action) => {
+  const controlSolver = async (action) => {
     if (action === 'start') {
       console.log("selected puzzle", selectedPuzzle);
-      fetchAndSolvePuzzle(selectedPuzzle);
+      await fetchAndSetSolverSteps(selectedPuzzle);
+      if(solverSteps.length>0){
+        updateBoardAndStep(0);
+      }
     } else if (action === 'pause') {
       setSolverStatus('paused');
+    } else if (action === 'resume') {
+      setSolverStatus('resumed');
     }
   };
 
   /**sets step index on user click */
   const handleStepChange = (direction) => {
     if (direction === 'forward' && currentStep < solverSteps.length - 1) {
-      setCurrentStep(currentStep + 1);
+      setSolverStatus('paused');
+      updateBoardAndStep(currentStep + 1);
     } else if (direction === 'backward' && currentStep > 0) {
-      setCurrentStep(currentStep - 1);
+      setSolverStatus('paused');
+      updateBoardAndStep(currentStep - 1);
     }
   };
 
@@ -108,19 +163,18 @@ function App() {
   }
 
 
-
-
   return (
     <div className="App">
-       <ControlPanel
+      <ControlPanel
         onStart={() => controlSolver('start')}
         onPause={() => controlSolver('pause')}
+        onResume={() => controlSolver('resume')}
         onStepForward={() => handleStepChange('forward')}
         onStepBackward={() => handleStepChange('backward')}
       />
-      <SudokuBoard board={board} />
+      <SudokuBoard board={board} highlightedCell = {highlightedCell} />
       <DifficultySelector onSelectPuzzle={handleSelectPuzzle} puzzles={puzzles} />
-     
+
       {/* <SolverStepsAnimation steps={solverSteps} currentStepIndex={currentStep} /> */}
     </div>
   );

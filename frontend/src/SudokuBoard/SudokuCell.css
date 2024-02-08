@@ -1,0 +1,14 @@
+.sudoku-cell {
+    /* Your default cell styles */
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+  }
+  
+  .highlighted {
+    /* Styles for highlighted cell */
+    background-color: yellow;
+  }

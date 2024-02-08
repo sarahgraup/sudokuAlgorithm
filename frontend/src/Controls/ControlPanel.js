@@ -16,13 +16,14 @@ import "./ControlPanel.css";
  * App -> Control Panel
  */
 
-function ControlPanel({onStart, onPause, onForward, onBackward}){
+function ControlPanel({onStart, onPause, onResume, onStepForward, onStepBackward}){
     return (
         <div className="control-panel">
             <button onClick={onStart}>Start</button>
             <button onClick={onPause}>Pause</button>
-            <button onClick={onForward}>Forward</button>
-            <button onClick={onBackward}>Backward</button>
+            <button onClick={onResume}>Resume</button>
+            <button onClick={onStepForward}>Forward</button>
+            <button onClick={onStepBackward}>Backward</button>
         </div>
     );
 

@@ -21,6 +21,9 @@
 
 /* Assuming you might add a class to wrap the DifficultySelector for styling */
 .difficulty-selector {
-  /* Styling for the difficulty selector if needed */
+  display: flex;
+  gap:10px;
+  margin-top: 20px;
+ 
 }
 
