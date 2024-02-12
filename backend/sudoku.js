@@ -531,9 +531,9 @@ class Sudoku {
         this.board = lastDecision.boardState; // Revert to the previous board state
         this.row = lastDecision.rowState;
         this.col = lastDecision.colState;
-        this.subgrid = lastDecision.subgridState
+        this.subgrid = lastDecision.subgridState;
 
-        this.logAction('unassign', { row: this.row, col: this.col, value: val, boardState: this.board });
+        this.logAction('unassign', { row: r, col: c, value: val, boardState: this.board });
 
         this.calculatePossibleValues();
     }

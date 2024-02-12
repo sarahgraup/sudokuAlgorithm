@@ -1,71 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import "./SolverStepsAnimation.css";
 
 /**Solver Steps Animation
  * 
- * visualizes each step of sudoku solving process including assignments, 
+ * Describes each step of sudoku solving process including assignments, 
  * conflicts, and backtracking
+ * 
  * Props:
- *  - steps: An array of solver steps to animate.
- *  - currentStepIndex: Index of the current step in the animation.
+ *  - currentStep:the current step to describe.
+ *  - solverSteps: array of steps solver takes including assignments, conflicts and backtracking
  * 
- * State:
- *  - animationSpeed: Controls the speed of the animation.
- *  - isAnimating: Indicates if the animation is currently playing.
+ * State: none
  * 
- * Functions:
-    - animateStep: Animates a single step of the solving process.
-    - startAnimation: Begins the animation from the current step.
-    - stopAnimation: Stops the ongoing animation.
-    - setAnimationSpeed: Adjusts the speed of the animation.
    App -> sudokuSolver
  * 
  */
 
-function SolverStepsAnimation({ steps, currentStepIndex }) {
-  const [animationSpeeds, setAnimationSpeeds] = useState(1000); // Initial animation speed
-  const [isAnimating, setIsAnimating] = useState(false); // Initial animation state
+function SolverStepsAnimation({ currentStep, solverSteps }) {
+  if (!currentStep || !solverSteps) return null;
 
-  // Function to animate a single step of the solving process
-  const animateStep = () => {
-    // Logic to animate a single step
-    // You can update the board based on the current step here
-  };
+  const step = solverSteps[currentStep];
+  console.log("in solver steps the step is:", solverSteps[currentStep]);
+  let actionText = "";
 
-  // Function to start the animation from the current step
-  const startAnimation = () => {
-    setIsAnimating(true);
-    // Implement logic to start the animation
-  };
-
-  // Function to stop the ongoing animation
-  const stopAnimation = () => {
-    setIsAnimating(false);
-    // Implement logic to stop the animation
-  };
-
-  // Function to adjust the speed of the animation
-  const setAnimationSpeed = (speed) => {
-    setAnimationSpeed(speed);
-    // Implement logic to set the animation speed
-  };
-
-  // Use useEffect to control the animation based on changes in currentStepIndex and isAnimating
-  useEffect(() => {
-    if (isAnimating) {
-      // Logic to animate the step when isAnimating is true
-      const animationInterval = setInterval(() => {
-        // Call animateStep function to animate the next step
-        animateStep();
-      }, 1000 / animationSpeeds); // Adjust the interval based on animation speed
-
-      return () => clearInterval(animationInterval); // Cleanup function to stop animation
-    }
-  }, [currentStepIndex, isAnimating, animationSpeeds]);
+  if (step.actionType === 'conflict') {
+    actionText = `Oh no, there is a conflict at Row: ${step.row + 1}, Col: ${step.col + 1}, Value: ${step.value}. We must backtrack.`;
+  } else if (step.actionType === 'assign' || step.actionType === 'unassign') {
+    actionText = `${step.actionType.charAt(0).toUpperCase() + step.actionType.slice(1)} at Row: ${step.row + 1}, Col: ${step.col + 1}, Value: ${step.value}.`;
+  } else {
+    // Handle other actions or default message
+    actionText = `Performing ${step.action} at Row: ${step.row + 1}, Col: ${step.col + 1}.`;
+  }
 
   return (
-    <div className="SolverStepsAnimation">
+    <div className="solver-steps-animation">
+      {actionText}
     </div>
   );
+
+
 }
 
 export default SolverStepsAnimation;

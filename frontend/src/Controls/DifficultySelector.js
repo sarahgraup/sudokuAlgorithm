@@ -36,7 +36,7 @@ function DifficultySelector({ onSelectPuzzle, puzzles }) {
                     </button>
                     {visibleDropDown === difficulty && puzzles[difficulty] && (
                         <select onChange={(e) => onSelectPuzzle(difficulty, e.target.value)}>
-                            <option value="">Select a puzzle</option>
+                            <option value=""></option>
                             {puzzles[difficulty].map((puzzle, index) => (
                                 <option key={index} value={puzzle}>{puzzle}</option>
                             ))}
@@ -48,4 +48,43 @@ function DifficultySelector({ onSelectPuzzle, puzzles }) {
     );
 }
 
+
+// import React from 'react';
+// import { MenuItem, FormControl, Select, InputLabel } from '@mui/material';
+
+// function DifficultySelector({ onSelectPuzzle, puzzles }) {
+//   const [difficulty, setDifficulty] = useState('');
+
+//   const handleChange = (evt) => {
+//     const { name, value } = evt.target;
+//     setDifficulty(value);
+//     onSelectPuzzle(name, value);
+//   };
+
+//   return (
+//     <div className='difficulty-selector'>
+//       {['easy', 'medium', 'hard'].map(difficulty => (
+//         <FormControl key={difficulty} fullWidth>
+//           <InputLabel id={`${difficulty}-label`}>{difficulty}</InputLabel>
+//           <Select
+//             labelId={`${difficulty}-label`}
+//             id={difficulty}
+//             value={difficulty === difficulty ? difficulty : ''}
+//             onChange={handleChange}
+//             name={difficulty}
+//           >
+//             {puzzles[difficulty].map((puzzle, index) => (
+//               <MenuItem key={index} value={puzzle}>{puzzle}</MenuItem>
+//             ))}
+//           </Select>
+//         </FormControl>
+//       ))}
+//     </div>
+//   );
+// }
+
 export default DifficultySelector;
+// import React from 'react';
+
+
+

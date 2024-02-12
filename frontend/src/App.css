@@ -3,7 +3,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Adjust the space between components */
+  gap: 20px; 
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+
 }
 
 .SudokuBoard {
@@ -13,17 +17,32 @@
   /* Additional styles for the board */
 }
 
-.control-panel {
+.control-panel, .difficulty-selector {
   display: flex;
   gap: 10px; /* Space between buttons */
-  /* Additional styling for the control panel */
-}
-
-/* Assuming you might add a class to wrap the DifficultySelector for styling */
-.difficulty-selector {
-  display: flex;
-  gap:10px;
+  justify-content: center;
   margin-top: 20px;
- 
 }
 
+
+/* .difficulty-selector select{
+  position: absolute;
+  margin-top: 5px;
+ 
+} */
+/* Wrap both Sudoku board and solver steps animation */
+.board-and-animation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+@media (max-width: 600px) {
+  .board-and-animation-container {
+    flex-direction: column;
+  }
+}

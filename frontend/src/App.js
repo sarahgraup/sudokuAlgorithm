@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import SudokuBoard from './SudokuBoard/SudokuBoard';
 import ControlPanel from './Controls/ControlPanel'
 import DifficultySelector from './Controls/DifficultySelector';
-// import SolverStepsAnimation from './SolverStepsAnimation';
+import SolverStepsAnimation from './SolverStepsAnimation';
 import SudokuApi from "./Api/SudokuApi";
 import './App.css';
 
@@ -34,6 +34,7 @@ function App() {
   const [puzzles, setPuzzles] = useState({ easy: [], medium: [], hard: [] });
 
 
+  /**gets puzzle text file from api */
   const loadPuzzle = async (difficulty, puzzleId) => {
     try {
       const res = await SudokuApi.initializeBoard(difficulty, puzzleId);
@@ -51,11 +52,11 @@ function App() {
   /**gets puzzle txt file based on file name and solves */
   const fetchAndSetSolverSteps = async (selectedPuzzle) => {
     try {
-      setSolverStatus('running');
+      // setSolverStatus('running');
       const { difficulty, filename } = selectedPuzzle;
       const res = await SudokuApi.getActions(difficulty, filename);
       setSolverSteps(res.steps || []);
-      setCurrentStep(0);
+      console.log("solver steps", solverSteps);
 
     } catch (err) {
       console.error("failed to solve puzzle", err);
@@ -67,21 +68,20 @@ function App() {
   const updateBoardAndStep = (newStep) => {
     // setPreviousBoard(board);
     // console.log("previous board",previousBoard);
-    console.log("current step",currentStep, "new step", newStep);
+    console.log("solver steps", solverSteps);
+    console.log("in update board and step current step", currentStep, "new step", newStep);
     const currentSolverStep = solverSteps[newStep];
     console.log("currentSolverStep", currentSolverStep);
-    const { row, col, boardState} = currentSolverStep;
+    const {  actionType,row, col, boardState } = currentSolverStep;
 
-    if(boardState){
+    if (boardState) {
       setBoard(boardState.map(row => [...row]));
     }
-   
- 
-    setCurrentStep(newStep);
-    setHighlightedCell({row, col});
-    
-  };
 
+    setCurrentStep(newStep);
+    setHighlightedCell({ row, col, actionType});
+
+  };
 
 
   /**
@@ -89,33 +89,44 @@ function App() {
    * after change of currentstep, solversteps, or solverstatus
    * */
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (
-        solverSteps.length > 0 &&
-        currentStep !== null &&
-        (solverStatus === "running" || solverStatus === "resumed")
-      ) {
-        if (currentStep < solverSteps.length - 1) {
-          console.log("new board", board);
-          updateBoardAndStep(currentStep + 1);
-        } else {
-          clearInterval(timer);
-          setSolverStatus('stopped');
+    let timer;
+    console.log("solver steps", solverSteps);
+    if (solverStatus === "running" && currentStep === null && solverSteps.length > 0) {
+      setCurrentStep(0);
+      updateBoardAndStep(0);
+    } else if (solverStatus === "running" || solverStatus === "resumed") {
+      timer = setInterval(() => {
+        if (
+          solverSteps.length > 0 &&
+          currentStep !== null &&
+          (solverStatus === "running" || solverStatus === "resumed")
+        ) {
+          if (currentStep < solverSteps.length - 1) {
+            console.log("in use effect");
+            // console.log("new board", board);
+            updateBoardAndStep(currentStep + 1);
+          } else {
+            clearInterval(timer);
+            setSolverStatus('stopped');
+          }
         }
-      }
-    }, 1000);
+      }, 1000);
+    }
+
     return () => clearInterval(timer);
-  
+
   }, [currentStep, solverSteps, solverStatus]);
 
   /**solves puzzle or sets solver status to paused based on user action */
   const controlSolver = async (action) => {
     if (action === 'start') {
-      console.log("selected puzzle", selectedPuzzle);
       await fetchAndSetSolverSteps(selectedPuzzle);
-      if(solverSteps.length>0){
-        updateBoardAndStep(0);
-      }
+      
+      setSolverStatus('running');
+
+      // if(solverSteps.length>0){
+      //   updateBoardAndStep(0);
+      // }
     } else if (action === 'pause') {
       setSolverStatus('paused');
     } else if (action === 'resume') {
@@ -140,14 +151,14 @@ function App() {
       try {
         const resp = await SudokuApi.getPuzzles('/puzzles');
         // const data = await resp.json();
-        console.log("response puzzles", resp);
+        // console.log("response puzzles", resp);
         setPuzzles(resp.puzzles);
 
         //automatically load first puzzle up 
         if (resp.puzzles && Object.keys(resp.puzzles).length > 0) {
           const firstDifficulty = Object.keys(resp.puzzles)[0];
           const firstPuzzle = resp.puzzles[firstDifficulty][0];
-          console.log(firstDifficulty, firstPuzzle);
+          // console.log(firstDifficulty, firstPuzzle);
           loadPuzzle(firstDifficulty, firstPuzzle);
         }
       } catch (err) {
@@ -157,9 +168,10 @@ function App() {
     fetchPuzzles();
   }, []);
 
-  /**fetches puzzle data on user click */
+  /**fetches puzzle data on user click and clears any existing highlights */
   const handleSelectPuzzle = (difficulty, puzzleId) => {
     loadPuzzle(difficulty, puzzleId);
+    setHighlightedCell(null);
   }
 
 
@@ -172,10 +184,15 @@ function App() {
         onStepForward={() => handleStepChange('forward')}
         onStepBackward={() => handleStepChange('backward')}
       />
-      <SudokuBoard board={board} highlightedCell = {highlightedCell} />
+      <div className="board-and-animation-container">
+        <SudokuBoard board={board} highlightedCell={highlightedCell} />
+
+        <SolverStepsAnimation currentStep={currentStep} solverSteps={solverSteps} />
+      </div>
       <DifficultySelector onSelectPuzzle={handleSelectPuzzle} puzzles={puzzles} />
 
-      {/* <SolverStepsAnimation steps={solverSteps} currentStepIndex={currentStep} /> */}
+
+
     </div>
   );
 }

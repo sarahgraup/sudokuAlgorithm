@@ -13,24 +13,28 @@ import SudokuCell from "./SudokuCell";
  * SudokuBoard -> SudokuCell
  */
 
-function SudokuBoard({board, highlightedCell}) {
+function SudokuBoard({ board, highlightedCell }) {
     // console.log("in sudoku board component");
+    console.log("hihglihted cell", highlightedCell);
 
 
     return (
         <div className="SudokuBoard">
 
-           {board.map((row, rowIndex)=>
-                row.map((cell, cellIndex)=>(
+            {board.map((row, rowIndex) =>
+                row.map((cell, cellIndex) => (
                     <SudokuCell
                         key={`${rowIndex}-${cellIndex}`}
                         value={cell}
-                        isHighlighted={highlightedCell && 
-                            highlightedCell.row === rowIndex && 
+                        isHighlighted={highlightedCell &&
+                            highlightedCell.row === rowIndex &&
                             highlightedCell.col === cellIndex}
+                        highlightColor={highlightedCell?.actionType === 'conflict' ? 'red' :
+                            highlightedCell?.actionType === 'unassign' ? 'green' : 
+                            highlightedCell?.actionType === 'assign' ? 'yellow' : ''}
                     />
                 ))
-           )}
+            )}
 
         </div>
     );

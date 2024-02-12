@@ -20,9 +20,9 @@
   }
   
   /* Highlighted cell background */
-  .highlighted {
+  /* .highlighted {
     background-color: lightyellow;
-  }
+  } */
   
   /* Thick borders for 3x3 subgrid separation */
   .SudokuBoard > :nth-child(3n) {

@@ -14,10 +14,12 @@ import "./SudokuCell.css";
  * SudokuBoard -> SudokuCell
  */
 
-function SudokuCell({value, isHighlighted}){
+function SudokuCell({value, isHighlighted, highlightColor}){
+    // console.log("highlihgt color", highlightColor);
     // console.log("in sudoku cell value", value);
+    const cellStyle = isHighlighted ? { backgroundColor: highlightColor } : {};
     return (
-        <div className={`sudoku-cell ${isHighlighted ? 'highlighted' : ''}`} >
+        <div className={`sudoku-cell ${isHighlighted ? 'highlighted' : ''}`} style={cellStyle}>
             {value || ''}
         </div>
     );
