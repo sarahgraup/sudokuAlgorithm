@@ -30,6 +30,9 @@ function App() {
   const [selectedPuzzle, setSelectedPuzzle] = useState({ difficulty: '', filename: '' });
   const [puzzles, setPuzzles] = useState({ easy: [], medium: [], hard: [] });
 
+  const paragraph = `This is a Sudoku solver that employs the Conflict-Driven Clause Learning (CDCL) algorithm, traditionally used in computational logic for solving Boolean satisfiability problems.
+   It simplifies puzzles through unit propagation, strategically selects cells using minimum remaining values and degree heuristics, and minimizes conflicts by choosing the least constraining values. 
+   The solver learns from past conflicts to avoid future dead ends, efficiently finding the best path to solve the puzzle.`;
 
   /**gets puzzle text file from api */
   const loadPuzzle = async (difficulty, puzzleId) => {
@@ -69,14 +72,14 @@ function App() {
     console.log("in update board and step current step", currentStep, "new step", newStep);
     const currentSolverStep = solverSteps[newStep];
     // console.log("currentSolverStep", currentSolverStep);
-    const {  actionType,row, col, boardState, reason } = currentSolverStep;
+    const { actionType, row, col, boardState, reason } = currentSolverStep;
 
     if (boardState) {
       setBoard(boardState.map(row => [...row]));
     }
 
     setCurrentStep(newStep);
-    setHighlightedCell({ row, col, actionType});
+    setHighlightedCell({ row, col, actionType });
 
   };
 
@@ -87,7 +90,7 @@ function App() {
    * */
   useEffect(() => {
     let timer;
-    
+
     if (solverStatus === "running" && currentStep === null && solverSteps.length > 0) {
       setCurrentStep(0);
       updateBoardAndStep(0);
@@ -119,7 +122,7 @@ function App() {
     if (action === 'start') {
       await fetchAndSetSolverSteps(selectedPuzzle);
       console.log("solver steps", solverSteps);
-      
+
       setSolverStatus('running');
 
       // if(solverSteps.length>0){
@@ -175,6 +178,11 @@ function App() {
 
   return (
     <div className="App">
+      <header className="App-header">
+        <h1>Sudoku Solver</h1>
+        <p>{paragraph}</p>
+        <p>Witness the magic as the algorithm intelligently solves a sudoku puzzle of your choice!</p>
+      </header>
       <ControlPanel
         onStart={() => controlSolver('start')}
         onPause={() => controlSolver('pause')}

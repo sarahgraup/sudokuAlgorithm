@@ -41,8 +41,27 @@
 
 
 
+
+.App-header h1, .App-header p {
+  margin: 0.5em auto; /* Adds vertical spacing and centers text */
+}
+
+.App-header {
+  text-align: center;
+  width: 80%; /* Ensures content has space on either side */
+  max-width: 960px; /* Maximum width */
+  margin: 0 auto; /* Centers horizontally */
+}
+
 @media (max-width: 600px) {
   .board-and-animation-container {
     flex-direction: column;
+  }
+  .App-header h1 {
+    font-size: 1.5em; /* Reduces the font size for h1 */
+  }
+
+  .App-header p {
+    font-size: 0.9em; /* Reduces the font size for paragraphs */
   }
 }
