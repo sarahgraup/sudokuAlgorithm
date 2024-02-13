@@ -505,7 +505,16 @@ class Sudoku {
                         this.conflict[r][c].push(this.board[r][c]);
 
                     }
-                    this.logAction('conflict', { row: r, col: c, value: this.board[r][c], boardState: this.copyBoardState() });
+
+                    let explanation;
+                    if(this.board[r][c]===0 && this.posValues[r][c].length===0){
+                        explanation = 'No valid possible values left';
+
+                    }else{
+                        explanation = 'Invalid assignment';
+                    }
+
+                    this.logAction('conflict', { row: r, col: c, value: this.board[r][c], boardState: this.copyBoardState(), reason: explanation });
                     return true;
                 }
             }
@@ -527,13 +536,15 @@ class Sudoku {
         if (this.decisionPoints.length === 0) {
             return false; // No more decisions to backtrack from
         }
+        this.logAction('unassign', { row: r, col: c, value: val, boardState: this.board });
+        
         const lastDecision = this.decisionPoints.pop();
         this.board = lastDecision.boardState; // Revert to the previous board state
         this.row = lastDecision.rowState;
         this.col = lastDecision.colState;
         this.subgrid = lastDecision.subgridState;
 
-        this.logAction('unassign', { row: r, col: c, value: val, boardState: this.board });
+       
 
         this.calculatePossibleValues();
     }

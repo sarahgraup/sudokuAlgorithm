@@ -15,7 +15,7 @@ import SudokuCell from "./SudokuCell";
 
 function SudokuBoard({ board, highlightedCell }) {
     // console.log("in sudoku board component");
-    console.log("hihglihted cell", highlightedCell);
+    // console.log("hihglihted cell", highlightedCell);
 
 
     return (

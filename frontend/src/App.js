@@ -68,11 +68,11 @@ function App() {
   const updateBoardAndStep = (newStep) => {
     // setPreviousBoard(board);
     // console.log("previous board",previousBoard);
-    console.log("solver steps", solverSteps);
+    // console.log("solver steps", solverSteps);
     console.log("in update board and step current step", currentStep, "new step", newStep);
     const currentSolverStep = solverSteps[newStep];
-    console.log("currentSolverStep", currentSolverStep);
-    const {  actionType,row, col, boardState } = currentSolverStep;
+    // console.log("currentSolverStep", currentSolverStep);
+    const {  actionType,row, col, boardState, reason } = currentSolverStep;
 
     if (boardState) {
       setBoard(boardState.map(row => [...row]));
@@ -90,7 +90,7 @@ function App() {
    * */
   useEffect(() => {
     let timer;
-    console.log("solver steps", solverSteps);
+    
     if (solverStatus === "running" && currentStep === null && solverSteps.length > 0) {
       setCurrentStep(0);
       updateBoardAndStep(0);
@@ -102,7 +102,7 @@ function App() {
           (solverStatus === "running" || solverStatus === "resumed")
         ) {
           if (currentStep < solverSteps.length - 1) {
-            console.log("in use effect");
+            // console.log("in use effect");
             // console.log("new board", board);
             updateBoardAndStep(currentStep + 1);
           } else {
@@ -121,6 +121,7 @@ function App() {
   const controlSolver = async (action) => {
     if (action === 'start') {
       await fetchAndSetSolverSteps(selectedPuzzle);
+      console.log("solver steps", solverSteps);
       
       setSolverStatus('running');
 
