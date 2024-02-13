@@ -10,8 +10,6 @@ import "./ControlPanel.css";
  * 
  * Function: 
  *  - handlers for button clicks that call provided control functions
- *  
- * links to: none
  * 
  * App -> Control Panel
  */

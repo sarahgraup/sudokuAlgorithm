@@ -1,4 +1,4 @@
-/* Styles for the Sudoku board container */
+/* SudokuBoard.css */
 .SudokuBoard {
     display: grid;
     grid-template-columns: repeat(9, 1fr); /* Creates a 9-column grid */

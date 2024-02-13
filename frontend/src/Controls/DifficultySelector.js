@@ -13,8 +13,6 @@ import "./DifficultySelector.css";
  * Function: 
  *  - handlers to managbe dropdown selections
  *  - onSelectPuzzle: load selected puzzle into app component based on change of user click
- *  
- * links to: none
  * 
  * App -> DifficultySelector
  */
@@ -49,42 +47,8 @@ function DifficultySelector({ onSelectPuzzle, puzzles }) {
 }
 
 
-// import React from 'react';
-// import { MenuItem, FormControl, Select, InputLabel } from '@mui/material';
-
-// function DifficultySelector({ onSelectPuzzle, puzzles }) {
-//   const [difficulty, setDifficulty] = useState('');
-
-//   const handleChange = (evt) => {
-//     const { name, value } = evt.target;
-//     setDifficulty(value);
-//     onSelectPuzzle(name, value);
-//   };
-
-//   return (
-//     <div className='difficulty-selector'>
-//       {['easy', 'medium', 'hard'].map(difficulty => (
-//         <FormControl key={difficulty} fullWidth>
-//           <InputLabel id={`${difficulty}-label`}>{difficulty}</InputLabel>
-//           <Select
-//             labelId={`${difficulty}-label`}
-//             id={difficulty}
-//             value={difficulty === difficulty ? difficulty : ''}
-//             onChange={handleChange}
-//             name={difficulty}
-//           >
-//             {puzzles[difficulty].map((puzzle, index) => (
-//               <MenuItem key={index} value={puzzle}>{puzzle}</MenuItem>
-//             ))}
-//           </Select>
-//         </FormControl>
-//       ))}
-//     </div>
-//   );
-// }
-
 export default DifficultySelector;
-// import React from 'react';
+
 
 
 

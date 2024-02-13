@@ -5,19 +5,15 @@ import SudokuCell from "./SudokuCell";
  * 
  * Props:
  * - board: Current board state (2D array from App's state)
+ * - highlightedCell: the current cell to be highlighted
  * 
  * State: None 
- *  
- * links to: none
  * 
- * SudokuBoard -> SudokuCell
+ * App -> SudokuBoard
  */
 
 function SudokuBoard({ board, highlightedCell }) {
-    // console.log("in sudoku board component");
-    // console.log("hihglihted cell", highlightedCell);
-
-
+   
     return (
         <div className="SudokuBoard">
 

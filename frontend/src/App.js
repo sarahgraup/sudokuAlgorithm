@@ -6,30 +6,27 @@ import SolverStepsAnimation from './SolverStepsAnimation';
 import SudokuApi from "./Api/SudokuApi";
 import './App.css';
 
-/**App
+/**App for Sudoku Solver
  * 
  * State:
- *  - current Sudoky board (2d array)
- *  - Solver status: indicates if solver is  (running, paused, stopped).
-    - Current step: current step for stepping through the solution.
-    - solverSteps: array of steps solver takes including assignments, conflicts and backtracking
-    - Selected difficulty and puzzle list.
-
-  Props: none
-
-   App -> sudokuSolver
+ *  - board: current Sudoky board (2d array)
+ *  - Solverstatus: indicates if solver is  (running, paused, stopped).
+ *  - currentStep: current step for stepping through the solution.
+ *  - solverSteps: array of steps solver takes including assignments, conflicts and backtracking
+ *  - puzzles: difficulty and puzzle list. 
+ *  - selectedPuzzle: specific puzzle selected for solving
+ *  - highlightedCell: the current cell to be highlighted
+ * 
+ * Props: none
  * 
  */
 function App() {
 
   const [board, setBoard] = useState([]);
-  const previousBoardRef = useRef([]);
-  const [previousBoard, setPreviousBoard] = useState([]);
   const [solverStatus, setSolverStatus] = useState('stopped');
   const [highlightedCell, setHighlightedCell] = useState(null);
   const [currentStep, setCurrentStep] = useState(null);
   const [solverSteps, setSolverSteps] = useState([]);
-
   const [selectedPuzzle, setSelectedPuzzle] = useState({ difficulty: '', filename: '' });
   const [puzzles, setPuzzles] = useState({ easy: [], medium: [], hard: [] });
 

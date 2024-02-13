@@ -6,12 +6,11 @@ import "./SudokuCell.css";
  *  - value: the value to be displayed in cell (number or empty)
  *  - isHighlighted: Iindicates whether cell should be highlighted (e.g. for conflicts, assignments
  *      backtracking, etc)
+ *  - highlightColor: the color to be displayed for the highlighted cell
  * 
  * State: none
- *  
- * links to: none
  * 
- * SudokuBoard -> SudokuCell
+ * App -> SudokuBoard -> SudokuCell
  */
 
 function SudokuCell({value, isHighlighted, highlightColor}){
