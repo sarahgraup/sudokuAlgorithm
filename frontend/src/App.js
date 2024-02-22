@@ -1,9 +1,11 @@
 import { useRef, useState, useEffect } from "react";
+import { styled } from '@mui/material/styles';
 import SudokuBoard from './SudokuBoard/SudokuBoard';
 import ControlPanel from './Controls/ControlPanel'
 import DifficultySelector from './Controls/DifficultySelector';
 import SolverStepsAnimation from './SolverStepsAnimation';
 import SudokuApi from "./Api/SudokuApi";
+
 import './App.css';
 
 /**App for Sudoku Solver
@@ -33,6 +35,13 @@ function App() {
   const paragraph = `This is a Sudoku solver that employs the Conflict-Driven Clause Learning (CDCL) algorithm, traditionally used in computational logic for solving Boolean satisfiability problems.
    It simplifies puzzles through unit propagation, strategically selects cells using minimum remaining values and degree heuristics, and minimizes conflicts by choosing the least constraining values. 
    The solver learns from past conflicts to avoid future dead ends, efficiently finding the best path to solve the puzzle.`;
+
+
+  //  const P = styled('p')(({ theme }) => ({
+  //   ...theme.typography.button,
+  //   backgroundColor: theme.palette.background.paper,
+  //   padding: theme.spacing(1),
+  // }));
 
   /**gets puzzle text file from api */
   const loadPuzzle = async (difficulty, puzzleId) => {
@@ -151,15 +160,12 @@ function App() {
     const fetchPuzzles = async () => {
       try {
         const resp = await SudokuApi.getPuzzles('/puzzles');
-        // const data = await resp.json();
-        // console.log("response puzzles", resp);
         setPuzzles(resp.puzzles);
 
         //automatically load first puzzle up 
         if (resp.puzzles && Object.keys(resp.puzzles).length > 0) {
           const firstDifficulty = Object.keys(resp.puzzles)[0];
           const firstPuzzle = resp.puzzles[firstDifficulty][0];
-          // console.log(firstDifficulty, firstPuzzle);
           loadPuzzle(firstDifficulty, firstPuzzle);
         }
       } catch (err) {
@@ -183,7 +189,7 @@ function App() {
         <p>{paragraph}</p>
         <p>Witness the magic as the algorithm intelligently solves a sudoku puzzle of your choice!</p>
       </header>
-      <ControlPanel
+      <ControlPanel className="control-panel"
         onStart={() => controlSolver('start')}
         onPause={() => controlSolver('pause')}
         onResume={() => controlSolver('resume')}
@@ -195,7 +201,7 @@ function App() {
 
         <SolverStepsAnimation currentStep={currentStep} solverSteps={solverSteps} />
       </div>
-      <DifficultySelector onSelectPuzzle={handleSelectPuzzle} puzzles={puzzles} />
+      <DifficultySelector className="difficulty-selector" onSelectPuzzle={handleSelectPuzzle} puzzles={puzzles} />
 
 
 

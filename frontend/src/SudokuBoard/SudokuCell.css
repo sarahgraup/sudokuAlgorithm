@@ -1,15 +1,9 @@
-/*sudokucell.css*/
-.sudoku-cell {
-    /* Your default cell styles */
-    width: 30px;
-    height: 30px;
-    border: 1px solid black;
-    display: inline-block;
-    text-align: center;
-    line-height: 30px;
-  }
-  
-  /* .highlighted {
+/* SudokuCell.css */
 
-    background-color: yellow;
-  } */
+.sudoku-cell {
+  height: 100%; 
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

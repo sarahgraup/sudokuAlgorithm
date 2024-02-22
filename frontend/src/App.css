@@ -4,34 +4,25 @@
   flex-direction: column;
   align-items: center;
   gap: 20px; 
-  padding: 20px;
+  padding: 0.2em;
   min-height: 100vh;
   box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 200;
+  letter-spacing: .1em;
+  overflow: hidden; 
 
-}
-
-.SudokuBoard {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 1px;
-  /* Additional styles for the board */
 }
 
 .control-panel, .difficulty-selector {
   display: flex;
   gap: 10px; /* Space between buttons */
   justify-content: center;
-  margin-top: 20px;
 }
 
-
-/* .difficulty-selector select{
-  position: absolute;
-  margin-top: 5px;
- 
-} */
 /* Wrap both Sudoku board and solver steps animation */
 .board-and-animation-container {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -41,19 +32,26 @@
 
 
 
-
 .App-header h1, .App-header p {
   margin: 0.5em auto; /* Adds vertical spacing and centers text */
 }
 
 .App-header {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   width: 80%; /* Ensures content has space on either side */
   max-width: 960px; /* Maximum width */
   margin: 0 auto; /* Centers horizontally */
 }
 
+
+
+
 @media (max-width: 600px) {
+  .App{
+    padding: 0.1em;
+  }
   .board-and-animation-container {
     flex-direction: column;
   }
@@ -64,4 +62,19 @@
   .App-header p {
     font-size: 0.9em; /* Reduces the font size for paragraphs */
   }
+  .control-panel .MuiButton-root {
+    padding: 4px 8px; /* Smaller padding */
+    font-size: 0.75rem; /* Smaller font size */
+  }
+  .control-panel{
+    gap: 5px; /* Reduced space between buttons */
+  }
+  div.MuiBox-root, div.MuiSelect-select, div.MuiFormControl-root, div.MuiSelect-select{
+    font-size: 1rem; /* Smaller font size for select input and menu items */
+    padding:0.2em;
+    text-transform: capitalize;
+  }
+ 
+
+  
 }

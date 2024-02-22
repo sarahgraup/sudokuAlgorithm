@@ -1,4 +1,5 @@
 import "./ControlPanel.css";
+import { Button } from '@mui/material';
 
 /** Component for Control Panel
  *  Renders buttons for controlling the solver
@@ -14,14 +15,14 @@ import "./ControlPanel.css";
  * App -> Control Panel
  */
 
-function ControlPanel({onStart, onPause, onResume, onStepForward, onStepBackward}){
+function ControlPanel({ onStart, onPause, onResume, onStepForward, onStepBackward }) {
     return (
         <div className="control-panel">
-            <button onClick={onStart}>Start</button>
-            <button onClick={onPause}>Pause</button>
-            <button onClick={onResume}>Resume</button>
-            <button onClick={onStepForward}>Forward</button>
-            <button onClick={onStepBackward}>Backward</button>
+            <Button sx={{ padding: '6px 12px', fontSize: '0.75rem' }} variant="outlined" onClick={onStart}>Start</Button>
+            <Button sx={{ padding: '6px 12px', fontSize: '0.75rem' }} variant="outlined" onClick={onPause}>Pause</Button>
+            <Button sx={{ padding: '6px 12px', fontSize: '0.75rem' }} variant="outlined" onClick={onResume}>Resume</Button>
+            <Button sx={{ padding: '6px 12px', fontSize: '0.75rem' }} variant="outlined" onClick={onStepForward}>Forward</Button>
+            <Button sx={{ padding: '6px 12px', fontSize: '0.75rem' }} variant="outlined" onClick={onStepBackward}>Backward</Button>
         </div>
     );
 

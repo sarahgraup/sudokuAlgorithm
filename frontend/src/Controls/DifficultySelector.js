@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FormControl, Select, MenuItem, Box } from '@mui/material';
 import "./DifficultySelector.css";
 /** Component for Difficulty Selector
  *  Renders selection of difficulty levels and specified puzzles
@@ -12,43 +13,55 @@ import "./DifficultySelector.css";
  * 
  * Function: 
  *  - handlers to managbe dropdown selections
- *  - onSelectPuzzle: load selected puzzle into app component based on change of user click
+ *  - handleChange: load selected puzzle into app component based on change of user click
  * 
  * App -> DifficultySelector
  */
+
+
 function DifficultySelector({ onSelectPuzzle, puzzles }) {
 
-    const [visibleDropDown, setVisibleDropdown] = useState(null);
+    //seperate handleChange 
+    const handleChange = (difficulty) => (evt) => {
+        onSelectPuzzle(difficulty, evt.target.value);
+    }
 
-    /**handler for changing visible dropdown */
-    const handleDifficultyClick = (difficulty) => {
-        setVisibleDropdown(difficulty === visibleDropDown ? '' : difficulty);
+    //custom renderValue function
+    const renderDifficultyValue = (difficulty) => (value) => {
+        if (value.length === 0) {
+            return difficulty.toUpperCase();
+        }
+        return value;
     }
 
     return (
-        <div className='difficulty-selector'>
-            {['easy', 'medium', 'hard'].map((difficulty) => {
-                return (<div key={difficulty}>
-                    <button onClick={() => handleDifficultyClick(difficulty)}>
-                        {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-                    </button>
-                    {visibleDropDown === difficulty && puzzles[difficulty] && (
-                        <select onChange={(e) => onSelectPuzzle(difficulty, e.target.value)}>
-                            <option value=""></option>
-                            {puzzles[difficulty].map((puzzle, index) => (
-                                <option key={index} value={puzzle}>{puzzle}</option>
-                            ))}
-                        </select>
-                    )}
-                </div>);
-            })}
-        </div>
+        <Box sx={{ minWidth:400, display: 'flex', gap: 2 }}>
+            {['easy', 'medium', 'hard'].map((difficulty) => (
+                <FormControl key={difficulty} fullWidth>
+                    <Select className="selector"
+                        displayEmpty
+                        value=""
+                        variant="outlined"
+                        onChange={handleChange(difficulty)}
+                        renderValue={renderDifficultyValue(difficulty)}
+                        inputProps={{ 'aria-label': `${difficulty} puzzle selection` }}
+                    >
+                        <MenuItem disabled value="">
+                            <em>{difficulty.toUpperCase()}</em>
+                        </MenuItem>
+                        {puzzles[difficulty]?.map((puzzle, index) => (
+                            <MenuItem key={index} value={puzzle}>
+                                {puzzle}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            ))}
+        </Box>
     );
+
 }
 
-
 export default DifficultySelector;
-
-
 
 

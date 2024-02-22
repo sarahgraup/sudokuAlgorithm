@@ -1,34 +1,21 @@
 /* SudokuBoard.css */
-.SudokuBoard {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr); /* Creates a 9-column grid */
-    grid-gap: 1px; /* Adjust the gap if you want space between cells */
-    max-width: 450px; /* Adjust based on your preference */
-    margin: auto; /* Center the board on the page */
-    border: 2px solid black; /* Border around the entire board */
-  }
+ .SudokuBoard {
+    border: 2px solid black;
+  } 
   
   /* Styles for individual cells */
-  .sudoku-cell {
+  /* .sudoku-cell {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff; /* Cell background color */
-    border: 1px solid #ddd; /* Light border for cells */
-    height: 50px; /* Cell height */
-    font-size: 20px; /* Font size for numbers */
-  }
-  
-  /* Highlighted cell background */
-  /* .highlighted {
-    background-color: lightyellow;
+    background-color: #fff; 
+    border: 1px solid #ddd; 
+    height: 50px;
+    font-size: 20px; 
   } */
   
-  /* Thick borders for 3x3 subgrid separation */
-  .SudokuBoard > :nth-child(3n) {
-    border-right: 2px solid black;
-  }
-  .SudokuBoard > :nth-child(27n) {
-    border-bottom: 2px solid black;
-  }
+
+  
+
+ 
   
