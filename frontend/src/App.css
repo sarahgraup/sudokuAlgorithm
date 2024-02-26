@@ -3,18 +3,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; 
+  gap: 20px;
   padding: 0.2em;
   min-height: 100vh;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   font-weight: 200;
-  letter-spacing: .1em;
-  overflow: hidden; 
-
+  letter-spacing: 0.1em;
+  overflow: hidden;
 }
 
-.control-panel, .difficulty-selector {
+.control-panel,
+.difficulty-selector {
   display: flex;
   gap: 10px; /* Space between buttons */
   justify-content: center;
@@ -30,9 +30,8 @@
   align-items: center;
 }
 
-
-
-.App-header h1, .App-header p {
+.App-header h1,
+.App-header p {
   margin: 0.5em auto; /* Adds vertical spacing and centers text */
 }
 
@@ -45,11 +44,8 @@
   margin: 0 auto; /* Centers horizontally */
 }
 
-
-
-
 @media (max-width: 600px) {
-  .App{
+  .App {
     padding: 0.1em;
   }
   .board-and-animation-container {
@@ -66,15 +62,15 @@
     padding: 4px 8px; /* Smaller padding */
     font-size: 0.75rem; /* Smaller font size */
   }
-  .control-panel{
+  .control-panel {
     gap: 5px; /* Reduced space between buttons */
   }
-  div.MuiBox-root, div.MuiSelect-select, div.MuiFormControl-root, div.MuiSelect-select{
+  div.MuiBox-root,
+  div.MuiSelect-select,
+  div.MuiFormControl-root,
+  div.MuiSelect-select {
     font-size: 1rem; /* Smaller font size for select input and menu items */
-    padding:0.2em;
+    padding: 0.2em;
     text-transform: capitalize;
   }
- 
-
-  
 }

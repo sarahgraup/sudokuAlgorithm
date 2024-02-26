@@ -2,18 +2,7 @@
  .SudokuBoard {
     border: 2px solid black;
   } 
-  
-  /* Styles for individual cells */
-  /* .sudoku-cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff; 
-    border: 1px solid #ddd; 
-    height: 50px;
-    font-size: 20px; 
-  } */
-  
+
 
   
 
