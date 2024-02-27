@@ -59,3 +59,4 @@ To deploy this project run
 - Custom Puzzle Input: Allow users to input their own puzzles for solving.
 - Real-Time Solving with Socket.io: Implement real-time puzzle solving and display using Socket.io, enhancing interactive user experience.
 # sudoku-frontend
+# sudoku-frontend
